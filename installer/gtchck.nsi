@@ -21,8 +21,6 @@ LoadLanguageFile "${NSISDIR}\Contrib\Language files\English.nlf"
 LicenseLangString myLicenseData ${LANG_ENGLISH} "..\LICENSE"
 LicenseData $(myLicenseData)
 
-LangString Name ${LANG_ENGLISH} "English"
-
 Name "Gothic Texture Check"
 OutFile "gothicTextureCheck-${GTCHCK_VERSION}.exe"
 InstallDir $APPDATA\GTCHCK
@@ -44,18 +42,6 @@ Function .onInit
   StrCmp $0 1 0 +2
 	goto end
 	
-	Push ""
-	Push ${LANG_POLISH}
-	Push Polski
-	Push ${LANG_ENGLISH}
-	Push English
-	Push A
-	LangDLL::LangDialog "Installer Language" "Please select the language of the installer"
-
-	Pop $LANGUAGE
-	StrCmp $LANGUAGE "cancel" 0 +2
-		Abort
-		
 	end:
 FunctionEnd
 
