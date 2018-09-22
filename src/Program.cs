@@ -9,15 +9,10 @@ namespace GothicTextureCheck
 {
     class Program
     {
-        static string sb =
-        "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\r\n" +
-        "  _____         _                         _               _    \r\n" +
-        " |_   _|____  _| |_ _   _ _ __ ___    ___| |__   ___  ___| | __\r\n" +
-        "   | |/ _ \\ \\/ / __| | | | '__/ _ \\  / __| '_ \\ / _ \\/ __| |/ /\r\n" +
-        "   | |  __/>  <| |_| |_| | | |  __/ | (__| | | |  __/ (__|   < \r\n" +
-        "   |_|\\___/_/\\_\\\\__|\\__,_|_|  \\___|  \\___|_| |_|\\___|\\___|_|\\_\\\r\n" +
-        "                                                               \r\n" +
-        "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\r\n";
+        static string sb = "___ ____ _  _ ___ _  _ ____ ____    ____ _  _ ____ ____ _  _\r\n" +
+                            " |  |___  \\/   |  |  | |__/ |___    |    |__| |___ |    |_/\r\n" +
+                            " |  |___ _/\\_  |  |__| |  \\ |___    |___ |  | |___ |___ | \\_\r\n" +
+                            "\r\n";
 
         static Dictionary<string, FileInfo> FileNames = new Dictionary<string, FileInfo>();
 
@@ -50,7 +45,10 @@ namespace GothicTextureCheck
         static void Main(string[] args)
         {
 #if DEBUG
-            args = new string[] { "-d", @"F:\Games\Gothic\_Work\Data\Textures", "-r", "--TEX", "-i", "-t", "Alternative" };
+            args = new string[] { "-d", @"F:\Games\Gothic\_Work\Data\Textures", "-i", /*"--TEX", "-i", "-v", "-t", "Alternative"*/ };
+            //args = new string[] { "--version" };
+            //
+            //args = new string[] { "-d", @"F:\Games\Gothic\_Work\Data\Textures\", "-i", /*"--TEX", "-i", "-v", "-t", "Alternative"*/ };
 #endif
             Console.WriteLine(sb);
 
@@ -62,22 +60,23 @@ namespace GothicTextureCheck
                    {
                        ConsoleTableFormat = o.TableStyle;
 
-                       // use executable directory if not supplied
                        if (!string.IsNullOrEmpty(o.Directory))
                        {
                            dir = new DirectoryInfo(o.Directory);
-                           dir = dir.Parent;
                        }
 
+                       // use executable directory if not supplied
                        if (dir == null)
                        {
-                           var localPath = System.Reflection.Assembly.GetEntryAssembly().Location;
-                           dir = new DirectoryInfo(localPath);
-                           if (dir == null)
-                           {
-                               ConsoleUtils.AwaitingMessage("Directory could not be found! Bye!");
-                               return;
-                           }
+                           var assemblyPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+                           var dirPath = new FileInfo(assemblyPath).Directory.FullName;
+                           dir = new DirectoryInfo(dirPath);
+                       }
+
+                       if (dir == null || !dir.Exists)
+                       {
+                           ConsoleUtils.AwaitingMessage("Directory could not be found! Bye!");
+                           return;
                        }
 
                        if (o.Targa)
@@ -88,6 +87,9 @@ namespace GothicTextureCheck
 
                        if (o.Interactive || args.Length == 0)
                        {
+                           if (!o.Verbose)
+                               o.Verbose = ConsoleUtils.YesNoQuestion("Show additional output ?", false);
+
                            if (!o.Recursive)
                                o.Recursive = ConsoleUtils.YesNoQuestion("Do you want to include subdirectories ?", true);
 
@@ -111,7 +113,7 @@ namespace GothicTextureCheck
 
                        if (extensions.Count == 0)
                        {
-                           ConsoleUtils.AwaitingMessage("No file extension chosen! Bye.");
+                           ConsoleUtils.AwaitingMessage("Error, no file extension chosen! (Please specify them in arguments, or start interactive mode...)");
                            return;
                        }
 
@@ -125,10 +127,11 @@ namespace GothicTextureCheck
                    })
                    .WithNotParsed<Options>((errs =>
                    {
-                       Console.WriteLine("Uups!");
+                       //Console.WriteLine("Uups!");
                        return;
                    }));
 
+            Console.WriteLine();
             ConsoleUtils.AwaitingMessage("Goodbye");
         }
 
@@ -181,7 +184,10 @@ namespace GothicTextureCheck
             {
                 bool diplayDups = true;
                 if (interactive)
+                {
                     diplayDups = ConsoleUtils.YesNoQuestion("Display duplicates ?", false);
+                    Console.WriteLine();
+                }
 
                 if (diplayDups)
                 {
@@ -298,7 +304,7 @@ namespace GothicTextureCheck
                     if (interactive)
                         ConsoleUtils.AwaitingMessage("continue (any key)");
                 }
-                 
+
             }
 
         }
