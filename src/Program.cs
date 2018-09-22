@@ -45,7 +45,7 @@ namespace GothicTextureCheck
         static void Main(string[] args)
         {
 #if DEBUG
-            args = new string[] { "-d", @"F:\Games\Gothic\_Work\Data\Textures", "-i", /*"--TEX", "-i", "-v", "-t", "Alternative"*/ };
+            //args = new string[] { "-d", @"F:\Games\Gothic\_Work\Data\Textures", "-i", /*"--TEX", "-i", "-v", "-t", "Alternative"*/ };
             //args = new string[] { "--version" };
             //
             //args = new string[] { "-d", @"F:\Games\Gothic\_Work\Data\Textures\", "-i", /*"--TEX", "-i", "-v", "-t", "Alternative"*/ };
@@ -65,12 +65,13 @@ namespace GothicTextureCheck
                            dir = new DirectoryInfo(o.Directory);
                        }
 
-                       // use executable directory if not supplied
+                       // use working if not supplied
                        if (dir == null)
                        {
-                           var assemblyPath = System.Reflection.Assembly.GetEntryAssembly().Location;
-                           var dirPath = new FileInfo(assemblyPath).Directory.FullName;
-                           dir = new DirectoryInfo(dirPath);
+                           //var assemblyPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+                           //var dirPath = new FileInfo(assemblyPath).Directory.FullName;
+                           var currentPath = Environment.CurrentDirectory;
+                           dir = new DirectoryInfo(currentPath);
                        }
 
                        if (dir == null || !dir.Exists)
