@@ -1,6 +1,6 @@
 # Gothic Texture Check CLI
 
-Simple command line tool which checks folders for `.tga` or `.TEX` files and report if there are any missing animated or varied textures. :100: 
+Simple command line tool which checks folders for `.tga` or `.TEX` files and report if there are any missing animated or varied textures. 
 
 ### Description
 
@@ -10,7 +10,7 @@ There are three types:
 
 * Animated
 * Varied (Visual skin)
-* Variend and Colored
+* Varied and Colored
 
 The biggest concern here are the textures describing variations and color, such as `HUM_HEAD_V0_C0`.
 In order to use texture `HUM_HEAD_V2_C1`, there must exist all the textures of lower order **(all variations up to number 2 each having color variant up to number 1)**.
@@ -25,18 +25,18 @@ In order to use texture `HUM_HEAD_V2_C1`, there must exist all the textures of l
 ### Features
 
 * Find duplicates
-* Dicover missing texture variants
+* Discover missing texture variants
 * Discover missing animated texture frames
 
-### Installation & Usage
+### Installation
 
-Just extract .exe in your **Textures** folder and launch. This is default interactive mode of the application.
+Launch installer, app will be installed into `%appdata%`. Make sure you have it in your `PATH`
 
-#### CLI
-You can use the app with specified parameters to speed up the process.
+### Usage
+Open `cmd` or `powershell` and use `gtexcheck` with appropriate parameters.
 
 ```text
-Usage: GothicTextureCheck [options]
+Usage: gtexcheck [options]
 
 Options:
 
@@ -50,10 +50,36 @@ Options:
   --TGA                  include .tga extension when doing texture check.
   --TEX                  include .tex extension when doing texture check.
   -t, --tableStyle       change table style shown in verbose mode (Default, MarkDown, Alternative, Minimal).
-
-  Examples:
-      $ GothicTextureCheck -d <gothic root/_Work/Data/Textures> -r --TEX <= Check for missing or duplicated .TEX files.
-      $ GothicTextureCheck -d <gothic root/_Work/Data/Textures> -r --TGA <= Check for missing or duplicated .TGA files.
-      $ GothicTextureCheck -d <gothic root/_Work/Data/Textures> -i <= Run interactive check of textures
-      $ GothicTextureCheck -d <gothic root/_Work/Data/Textures> -v -i <= Run interactive check with verbose output (more info)
 ```
+#### Examples:
+
+
+##### from Textures directory
+```
+  $ gtexcheck                                               <= quick check.
+
+  $ gtexcheck -v -i                                         <= (Recomended use) verbose and interactive
+```
+
+##### from anywhere...
+```
+  $ gtexcheck -d <gothic_root/_Work/Data/Textures> -r --TEX <= Quick check for missing or duplicated .TEX files.
+                                                               The tool just prints all info without stopping
+
+  $ gtexcheck -d <gothic_root/_Work/Data/Textures> -r --TGA <= Quick check for missing or duplicated .TGA files.
+
+  $ gtexcheck -d <gothic_root/_Work/Data/Textures> -i       <= Run interactive check of textures
+
+  $ gtexcheck -d <gothic_root/_Work/Data/Textures> -v -i    <= Run interactive check with verbose output (more info)
+```
+
+
+#### Screenshots
+
+Table shows missing textures by `--`.
+RED indicates which textures won't work because of them.
+
+![Alt text](img/screenshot_0.png?raw=true "Main interface")
+![Alt text](img/screenshot_1.png?raw=true "Main interface")
+![Alt text](img/screenshot_2.png?raw=true "Main interface")
+![Alt text](img/screenshot_3.png?raw=true "Main interface")
