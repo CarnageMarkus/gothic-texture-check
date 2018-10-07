@@ -77,7 +77,7 @@ Options:
 #### Screenshots
 
 Table shows missing textures by `--`.
-RED indicates which textures won't work because of them.
+`RED` indicates which textures **won't work** because of them.
 
 ![Alt text](img/screenshot_0.png?raw=true "Main interface")
 ![Alt text](img/screenshot_1.png?raw=true "Main interface")
